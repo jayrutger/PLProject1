@@ -2,14 +2,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(void)
+int main(int argc, char** argv)
 {
+	char * cmdInput = argv[1];
 	FILE * fp;
 	char * line = NULL;
 	size_t len = 0;
 	ssize_t read;
 
-	fp = fopen("a1","r");
+	fp = fopen(cmdInput,"r");
 	if(fp == NULL){
 		printf("fuck");
 		exit(EXIT_FAILURE);
