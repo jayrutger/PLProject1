@@ -18,7 +18,11 @@ int main(void)
 		printf("Retrieved line of length %zu:\n", read);
 		
 		char line2 = line[0];
-		printf("%c",line2);
+		//printf("%c",line2);
+		for (int i=0;line[i] != '\0';i++)
+		{
+			printf("%c",line[i]);
+		}
 		//printf("%s",line);
 
 
