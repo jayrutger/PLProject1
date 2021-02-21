@@ -1,36 +1,33 @@
-#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
-
+#include "main.h"
+#include "lexer.h"
 int main(int argc, char** argv)
 {
 	char * cmdInput = argv[1];
 	FILE * fp;
-	char * line = NULL;
-	size_t len = 0;
-	ssize_t read;
-
+	int c;
 	fp = fopen(cmdInput,"r");
 	if(fp == NULL){
 		printf("fuck");
 		exit(EXIT_FAILURE);
 	}
-	while ((read = getline(&line,&len,fp)) != -1) {
-		printf("Retrieved line of length %zu:\n", read);
-		
-		char line2 = line[0];
-		//printf("%c",line2);
-		for (int i=0;line[i] != '\0';i++)
+	do
+	{
+		c = fgetc(fp);
+		if(feof(fp))
 		{
-			printf("%c",line[i]);
+			break;
 		}
-		//printf("%s",line);
-
-
+		fileContents[lengthOfFile]=c;
+		lengthOfFile++;
 	}
-
+	while(1);
+	for(int i=0; i<lengthOfFile;i++)
+	{
+		int num = lexer();
+		printf("%c",num);
+	}
 	fclose(fp);
-	if (line)
-		free(line);
 	exit(EXIT_SUCCESS);
 }
