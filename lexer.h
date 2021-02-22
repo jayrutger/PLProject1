@@ -17,6 +17,10 @@
 #define EQUALS 11
 #define OPERATOR 911
 #define COMMENT 777
+#define PARENERROR 444
+#define MISSINGOPERATOR 12
+#define UNDERSCOREERROR 31
+#define BEGINERROR 214
 
 int insertionTracker;
 int arraySpaceTracker;
@@ -24,9 +28,9 @@ int tokenval;
 int lookahead;
 int lineno;
 int numUnderscores;
+
 char* words[99];
 char str[99][99];
-char string[99];
 int parenthesisCount;
 
 
@@ -35,4 +39,5 @@ int getTokenType();
 int recurseThroughNumber();
 int recurseThroughSymbol();
 
+void checkArrayForDuplicates();
 #endif

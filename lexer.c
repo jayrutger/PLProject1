@@ -34,7 +34,7 @@ int getTokenType()
 			{
 				if(fileContents[lookahead] == '\n')
 				{
-					printf("%c",fileContents[lookahead]);
+//					printf("%c",fileContents[lookahead]);
 					lookahead++;//Move it over one more
 					lineno++;
 					return COMMENT;//Not used
@@ -42,13 +42,20 @@ int getTokenType()
 				}
 				else
 				{
-					printf("%c",fileContents[lookahead]);
+//					printf("%c",fileContents[lookahead]);
 					lookahead++;
 				}
 			}
 		}
 		if(fileContents[lookahead] == 'b')
 		{
+			if(fileContents[lookahead+1] == ' ')
+			{
+				if(fileContents[lookahead+2] == '(')
+				{
+					return MISSINGOPERATOR;
+				}
+			}
 
 			if(lookahead+4 >= lengthOfFile)
 			{
@@ -60,13 +67,19 @@ int getTokenType()
 				fileContents[lookahead+2] == 'g' && fileContents[lookahead+3] == 'i' && 
 				fileContents[lookahead+4] == 'n')
 				{
-					printf("%c",fileContents[lookahead]);
-					printf("%c",fileContents[lookahead+1]);
-					printf("%c",fileContents[lookahead+2]);
-					printf("%c",fileContents[lookahead+3]);
-					printf("%c",fileContents[lookahead+4]);
+//					printf("%c",fileContents[lookahead]);
+//					printf("%c",fileContents[lookahead+1]);
+//					printf("%c",fileContents[lookahead+2]);
+//					printf("%c",fileContents[lookahead+3]);
+//					printf("%c",fileContents[lookahead+4]);
 					lookahead+=5;
 					return BEGIN;
+				}
+				if( fileContents[lookahead+1] == 'e' && 
+				fileContents[lookahead+2] == 'g' && fileContents[lookahead+3] == 'a' && 
+				fileContents[lookahead+4] == 'n')
+				{
+					return BEGINERROR;
 				}
 			}	
 		}
@@ -83,10 +96,10 @@ int getTokenType()
 				if( fileContents[lookahead+1] == 'n' && 
 				fileContents[lookahead+2] == 'd' && fileContents[lookahead+3] == '.')
 				{
-					printf("%c",fileContents[lookahead]);
-					printf("%c",fileContents[lookahead+1]);
-					printf("%c",fileContents[lookahead+2]);
-					printf("%c",fileContents[lookahead+3]);
+//					printf("%c",fileContents[lookahead]);
+//					printf("%c",fileContents[lookahead+1]);
+//					printf("%c",fileContents[lookahead+2]);
+//					printf("%c",fileContents[lookahead+3]);
 					lookahead+=4;
 					return END;
 				}
@@ -96,12 +109,12 @@ int getTokenType()
 		if(fileContents[lookahead] == ' ' || fileContents[lookahead] == '\t')
 		{
 			//do nothing
-			printf("%c",fileContents[lookahead]);
+//			printf("%c",fileContents[lookahead]);
 			lookahead++;
 		}	
 		else if(fileContents[lookahead] == '\n')
 		{
-			printf("%c",fileContents[lookahead]);
+//			printf("%c",fileContents[lookahead]);
 			lineno++;
 			lookahead++;
 		}
@@ -115,24 +128,28 @@ int getTokenType()
 		}
 		else if(fileContents[lookahead] == ';')
 		{
-			printf("%c",fileContents[lookahead]);
+//			printf("%c",fileContents[lookahead]);
 			lookahead++;
 			if(parenthesisCount != 0)
 			{
-				return ERROR;
+			//	printf("Syntax error expected: ");
+				//display expected argument
+	       		//	printf("\n");
+				//break;
+				return PARENERROR;
 			}		
 			return ENDLINE;
 		}
 		else if(fileContents[lookahead] == '=')//Can only have 1!
 		{		
-			printf("%c",fileContents[lookahead]);
+//			printf("%c",fileContents[lookahead]);
 			lookahead++;
 			return EQUALS;
 		}
 
 		else if (fileContents[lookahead] == '+' || fileContents[lookahead] == '-' || fileContents[lookahead] == '/' || fileContents[lookahead] == '*')
 		{
-			printf("%c",fileContents[lookahead]);
+//			printf("%c",fileContents[lookahead]);
 			lookahead++;
 			return OPERATOR;
 		}
@@ -146,7 +163,7 @@ int getTokenType()
 			{
 				parenthesisCount--;
 			}
-			printf("%c",fileContents[lookahead]);
+//			printf("%c",fileContents[lookahead]);
 			lookahead++;
 			return OPERATOR;
 		}
@@ -154,11 +171,11 @@ int getTokenType()
 		{
 			if(fileContents[lookahead]== ' ')
 			{
-				printf("HERE");
+	//			printf("HERE");
 			}
 			else
 			{
-				printf("UFUCKCF");
+				printf("U");
 			}
 		}
 	}
@@ -169,7 +186,7 @@ int recurseThroughNumber()
 	char ch = (char) fileContents[lookahead];
 	if(isdigit(ch))
 	{
-		printf("%c",fileContents[lookahead]);
+	//	printf("%c",fileContents[lookahead]);
 		lookahead++;
 		return recurseThroughNumber();	
 	}
@@ -217,7 +234,7 @@ int recurseThroughSymbol()
 		{
 			numUnderscores=0;
 		}
-		printf("%c",fileContents[lookahead]);
+	//	printf("%c",fileContents[lookahead]);
 		lookahead++;
 		return recurseThroughSymbol();
 	}	
@@ -226,16 +243,42 @@ int recurseThroughSymbol()
 	{
 		if(numUnderscores>0)
 		{
-			return ERROR;
+			return UNDERSCOREERROR;
 		}
 		else
 		{
 			checkStorageArrayForWord(str[arraySpaceTracker]);
-			printf("\n->");
-			printf("%s",words[arraySpaceTracker]);
-			printf("<-");
+			//printf("");
+			//printf("%s",words[arraySpaceTracker]);
+			//printf(",");
 			arraySpaceTracker++;
 			return ID;
 		}	
+	}
+}
+
+void checkArrayForDuplicates()
+{
+	for(int i=0;i<insertionTracker;i++)
+	{
+	
+		for(int j=0;j<insertionTracker;j++)
+		{
+
+			for(int i=0;i<insertionTracker;i++)
+			{	
+			j= i+1;
+			while(j<insertionTracker)
+			{
+				if(strcmp(words[i],words[j]) == 0)
+				{
+					memmove(words+j, words + (insertionTracker - 1), sizeof(words[0]));
+					--insertionTracker;
+				}
+				else
+				++j;
+			}
+			}
+		}
 	}
 }

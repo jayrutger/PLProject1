@@ -9,7 +9,7 @@ int main(int argc, char** argv)
 	int c;
 	fp = fopen(cmdInput,"r");
 	if(fp == NULL){
-		printf("fuck");
+
 		exit(EXIT_FAILURE);
 	}
 	do
@@ -29,17 +29,56 @@ int main(int argc, char** argv)
 
 	while(1){
 		int tokenType = getTokenType();
-		if(tokenType == ERROR) {
+
+		if(tokenType == UNDERSCOREERROR)
+		{
+			printf("\nSyntax Error! Underscore at the end of a symbol");
+			//display expected argument
+	       		printf("\n");
+			break;
+		}
+		if(tokenType == BEGINERROR)
+		{
+			printf("\nSyntax Error! Begin Mispelled!");
+			//display expected argument
+	       		printf("\n");
+			break;
+		}
+		if(tokenType == PARENERROR)
+		{
+			printf("\nSyntax Error! Parenthesis expected!");
+			//display expected argument
+	       		printf("\n");
+			break;
+		}
+
+		if(tokenType == MISSINGOPERATOR)
+		{
+			printf("\nSyntax Error! Missing operator");
+			//display expected argument
+	       		printf("\n");
+			break;
+		}
+		else if(tokenType == ERROR) {
 			printf("Syntax error expected: ");
 			//display expected argument
 	       		printf("\n");
 			break;
 		}
-		if (tokenType == DONE)
+		else if (tokenType == DONE)
 		{
-			printf("Success!");
-			//display symbol table list
-	       		printf("\n");
+			checkArrayForDuplicates();
+			printf("\n Success!\n");
+			for(int i=0;i<15;i++)
+			{
+				printf(words[i]);
+				if(i==insertionTracker-1)
+				{
+					printf("\n");
+					break;
+				}
+				printf(",");
+			}
 			break;
 		}
 	}
