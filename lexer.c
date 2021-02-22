@@ -135,7 +135,7 @@ int getTokenType()
 		}
 		else if(fileContents[lookahead] == '(' || fileContents[lookahead] == ')')
 		{
-			//printf("OH FUCK");
+			printf("%c",fileContents[lookahead]);
 			lookahead++;
 			return OPERATOR;
 		}

@@ -23,14 +23,23 @@ int main(int argc, char** argv)
 		lengthOfFile++;
 	}while(1);
 
+		printf("compiling ");
+	       	printf("%s",cmdInput);
+	       	printf("\n");
+
 	while(1){
 		int tokenType = getTokenType();
 		if(tokenType == ERROR) {
-			printf("ERROR FOUND");
+			printf("Syntax error expected: ");
+			//display expected argument
+	       		printf("\n");
 			break;
 		}
 		if (tokenType == DONE)
 		{
+			printf("Success!");
+			//display symbol table list
+	       		printf("\n");
 			break;
 		}
 	}
