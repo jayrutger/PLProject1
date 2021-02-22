@@ -27,7 +27,6 @@ int getTokenType()
 			return DONE;
 		}
 
-		char ch = (char) fileContents[lookahead];
 		if(fileContents[lookahead] == '~')
 		{
 			while(1)
@@ -37,6 +36,7 @@ int getTokenType()
 					printf("%c",fileContents[lookahead]);
 					lookahead++;//Move it over one more
 					lineno++;
+					return COMMENT;//Not used
 					break;
 				}
 				else
@@ -46,7 +46,6 @@ int getTokenType()
 				}
 			}
 		}
-		ch = fileContents[lookahead];	
 		if(fileContents[lookahead] == 'b')
 		{
 
@@ -93,49 +92,48 @@ int getTokenType()
 			}	
 		}
 
-//		ch = fileContents[lookahead];	
-		if(ch == ' ' || ch == '\t')
+		if(fileContents[lookahead] == ' ' || fileContents[lookahead] == '\t')
 		{
 			//do nothing
 			printf("%c",fileContents[lookahead]);
 			lookahead++;
 		}	
-		else if(ch == '\n')
+		else if(fileContents[lookahead] == '\n')
 		{
 			printf("%c",fileContents[lookahead]);
 			lineno++;
 			lookahead++;
 		}
-		else if(isdigit(ch))
+		else if(isdigit(fileContents[lookahead]))
 		{
 		//	printf("%c",fileContents[lookahead]);
 			return recurseThroughNumber();
 		}
-		else if(isalpha(ch))
+		else if(isalpha(fileContents[lookahead]))
 		{
 		//	printf("%c",fileContents[lookahead]);
 			return recurseThroughSymbol();
 		}
-		else if(ch == ';')
+		else if(fileContents[lookahead] == ';')
 		{
-			printf("%c",ch);
+			printf("%c",fileContents[lookahead]);
 			lookahead++;
 			return ENDLINE;
 		}
-		else if(ch == '=')//Can only have 1!
+		else if(fileContents[lookahead] == '=')//Can only have 1!
 		{		
-			printf("%c",ch);
+			printf("%c",fileContents[lookahead]);
 			lookahead++;
 			return EQUALS;
 		}
 
-		else if (ch == '+' || ch == '-' || ch == '/' || ch == '*')
+		else if (fileContents[lookahead] == '+' || fileContents[lookahead] == '-' || fileContents[lookahead] == '/' || fileContents[lookahead] == '*')
 		{
-			printf("%c",ch);
+			printf("%c",fileContents[lookahead]);
 			lookahead++;
 			return OPERATOR;
 		}
-		else if(ch == '(' || ch == ')')
+		else if(fileContents[lookahead] == '(' || fileContents[lookahead] == ')')
 		{
 			//printf("OH FUCK");
 			lookahead++;
@@ -143,7 +141,7 @@ int getTokenType()
 		}
 		else
 		{
-			if(ch == '\n')
+			if(fileContents[lookahead]== ' ')
 			{
 				printf("HERE");
 			}

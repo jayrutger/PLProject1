@@ -16,7 +16,7 @@
 #define ENDLINE 123
 #define EQUALS 11
 #define OPERATOR 911
-
+#define COMMENT 777
 
 int tokenval;
 int lookahead;
