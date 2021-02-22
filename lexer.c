@@ -248,9 +248,6 @@ int recurseThroughSymbol()
 		else
 		{
 			checkStorageArrayForWord(str[arraySpaceTracker]);
-			//printf("");
-			//printf("%s",words[arraySpaceTracker]);
-			//printf(",");
 			arraySpaceTracker++;
 			return ID;
 		}	

@@ -25,28 +25,28 @@ int main(int argc, char** argv)
 
 		printf("compiling ");
 	       	printf("%s",cmdInput);
-	       	printf("\n");
+	       	//printf("\n");
 
 	while(1){
 		int tokenType = getTokenType();
 
 		if(tokenType == UNDERSCOREERROR)
 		{
-			printf("\nSyntax Error! Underscore at the end of a symbol");
+			printf("\nSyntax Error! Underscore at the end of a symbol\n");
 			//display expected argument
 	       		printf("\n");
 			break;
 		}
 		if(tokenType == BEGINERROR)
 		{
-			printf("\nSyntax Error! Begin Mispelled!");
+			printf("\nSyntax Error! Begin Mispelled!\n");
 			//display expected argument
 	       		printf("\n");
 			break;
 		}
 		if(tokenType == PARENERROR)
 		{
-			printf("\nSyntax Error! Parenthesis expected!");
+			printf("\nSyntax Error! Parenthesis expected!\n");
 			//display expected argument
 	       		printf("\n");
 			break;
@@ -54,13 +54,13 @@ int main(int argc, char** argv)
 
 		if(tokenType == MISSINGOPERATOR)
 		{
-			printf("\nSyntax Error! Missing operator");
+			printf("\nSyntax Error! Missing operator\n");
 			//display expected argument
 	       		printf("\n");
 			break;
 		}
 		else if(tokenType == ERROR) {
-			printf("Syntax error expected: ");
+			printf("Syntax error expected: \n");
 			//display expected argument
 	       		printf("\n");
 			break;
@@ -68,10 +68,10 @@ int main(int argc, char** argv)
 		else if (tokenType == DONE)
 		{
 			checkArrayForDuplicates();
-			printf("\n Success!\n");
+			printf("\nSuccess!\n");
 			for(int i=0;i<15;i++)
 			{
-				printf(words[i]);
+				printf("%s",words[i]);
 				if(i==insertionTracker-1)
 				{
 					printf("\n");
@@ -79,6 +79,7 @@ int main(int argc, char** argv)
 				}
 				printf(",");
 			}
+			printf("\n");
 			break;
 		}
 	}
