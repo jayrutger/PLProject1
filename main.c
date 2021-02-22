@@ -21,13 +21,20 @@ int main(int argc, char** argv)
 		}
 		fileContents[lengthOfFile]=c;
 		lengthOfFile++;
+	}while(1);
+
+	while(1){
+		int tokenType = getTokenType();
+		if(tokenType == ERROR) {
+			printf("ERROR FOUND");
+			break;
+		}
+		if (tokenType == DONE)
+		{
+			break;
+		}
 	}
-	while(1);
-	for(int i=0; i<lengthOfFile;i++)
-	{
-		int num = lexer();
-		printf("%c",num);
-	}
+
 	fclose(fp);
 	exit(EXIT_SUCCESS);
 }
