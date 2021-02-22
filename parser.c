@@ -11,9 +11,6 @@ int parser()
 
 
 
-	int symbol =  fileContents[lookahead];
-	lookahead++;
-	return symbol;
 
 }
 

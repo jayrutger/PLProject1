@@ -18,12 +18,19 @@
 #define OPERATOR 911
 #define COMMENT 777
 
+int insertionTracker;
+int arraySpaceTracker;
 int tokenval;
 int lookahead;
 int lineno;
 int numUnderscores;
+char* words[99];
+char str[99][99];
+char string[99];
+int parenthesisCount;
 
 
+void checkStorageArrayForWord(char* word);
 int getTokenType();
 int recurseThroughNumber();
 int recurseThroughSymbol();

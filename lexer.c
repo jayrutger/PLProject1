@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
 #include "main.h"
 #include "lexer.h"
 /*
@@ -106,18 +107,20 @@ int getTokenType()
 		}
 		else if(isdigit(fileContents[lookahead]))
 		{
-		//	printf("%c",fileContents[lookahead]);
 			return recurseThroughNumber();
 		}
 		else if(isalpha(fileContents[lookahead]))
 		{
-		//	printf("%c",fileContents[lookahead]);
 			return recurseThroughSymbol();
 		}
 		else if(fileContents[lookahead] == ';')
 		{
 			printf("%c",fileContents[lookahead]);
 			lookahead++;
+			if(parenthesisCount != 0)
+			{
+				return ERROR;
+			}		
 			return ENDLINE;
 		}
 		else if(fileContents[lookahead] == '=')//Can only have 1!
@@ -135,6 +138,14 @@ int getTokenType()
 		}
 		else if(fileContents[lookahead] == '(' || fileContents[lookahead] == ')')
 		{
+			if(fileContents[lookahead] == '(')
+			{
+				parenthesisCount++;
+			}
+			else if(fileContents[lookahead] == ')')
+			{
+				parenthesisCount--;
+			}
 			printf("%c",fileContents[lookahead]);
 			lookahead++;
 			return OPERATOR;
@@ -174,18 +185,31 @@ int recurseThroughNumber()
 	}
 }
 
+void checkStorageArrayForWord(char* word)
+{
+	for (int i=0;i<99;i++)
+	{
+		break;
+	}
+
+	words[insertionTracker] = word;
+	insertionTracker++;
+}
+
 int recurseThroughSymbol()
 {
 	char ch = (char) fileContents[lookahead];
 	if(isalpha(ch) || isdigit(ch) || ch == '_')
 	{
+		//Check if array already has the words
+		strncat(str[arraySpaceTracker],&ch,1);
+			
 		if(ch=='_')
 		{
 			numUnderscores++;
 			if(numUnderscores > 1)
 			{
 				return ERROR;
-				//No more than 1 underscore in a row
 			}
 		}
 
@@ -196,20 +220,22 @@ int recurseThroughSymbol()
 		printf("%c",fileContents[lookahead]);
 		lookahead++;
 		return recurseThroughSymbol();
-		}	
+	}	
 	
+	else
+	{
+		if(numUnderscores>0)
+		{
+			return ERROR;
+		}
 		else
 		{
-			//No more underscores in a row
-			if(numUnderscores>0)
-			{
-				return ERROR;
-			}
-			else
-			{
-				return ID;
-			}
-	
-		}
-
+			checkStorageArrayForWord(str[arraySpaceTracker]);
+			printf("\n->");
+			printf("%s",words[arraySpaceTracker]);
+			printf("<-");
+			arraySpaceTracker++;
+			return ID;
+		}	
+	}
 }
