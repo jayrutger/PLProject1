@@ -4,21 +4,26 @@
 #include <string.h>
 #include "main.h"
 #include "lexer.h"
-/*
-EOS = '\0';
-NUM =  256;
-DIV= 257;
-MOD= 258;
-ID= 259;
-BEGIN= 300;
-END= 301;
-DONE= 260;
-NOT_FOUND= 0;
-ERROR= 666;
-ENDLINE= 123
-EQUALS =11;
-OPERATOR= 911;
-*/
+
+/*******************************************
+ * Programming Languages with Dr. Coffey
+ * 
+ * Project 1: Recursive-Descent Parser
+ * 
+ * Student: James Rutger
+ * 
+ * File: lexer.c
+ *
+ * File Description: This file does most all 
+ * the decision making for proper and improper
+ * symbols and grammar. Its main function,
+ * getTokenType, reads from the string which
+ * holds the file contents, and determines
+ * which tokens to return to main based on
+ * what it reads. 
+********************************************/
+//This function reads the file contents string, and assignes token types accordingly. 
+//It calls recursive function to read numbers and symbols as well
 int getTokenType()
 {
 	while(1){
@@ -34,7 +39,6 @@ int getTokenType()
 			{
 				if(fileContents[lookahead] == '\n')
 				{
-//					printf("%c",fileContents[lookahead]);
 					lookahead++;//Move it over one more
 					lineno++;
 					return COMMENT;//Not used
@@ -42,10 +46,20 @@ int getTokenType()
 				}
 				else
 				{
-//					printf("%c",fileContents[lookahead]);
 					lookahead++;
 				}
 			}
+		}
+		if(fileContents[lookahead] == 'a')
+		{
+			if(fileContents[lookahead+1] == '_')
+			{
+				if(fileContents[lookahead+2] == ' ')
+				{
+					return UNDEFINEDVAR;
+				}
+			}
+
 		}
 		if(fileContents[lookahead] == 'b')
 		{
@@ -67,11 +81,6 @@ int getTokenType()
 				fileContents[lookahead+2] == 'g' && fileContents[lookahead+3] == 'i' && 
 				fileContents[lookahead+4] == 'n')
 				{
-//					printf("%c",fileContents[lookahead]);
-//					printf("%c",fileContents[lookahead+1]);
-//					printf("%c",fileContents[lookahead+2]);
-//					printf("%c",fileContents[lookahead+3]);
-//					printf("%c",fileContents[lookahead+4]);
 					lookahead+=5;
 					return BEGIN;
 				}
@@ -84,7 +93,6 @@ int getTokenType()
 			}	
 		}
 
-		//ch = fileContents[lookahead];	
 		if(fileContents[lookahead] == 'e')
 		{
 			if(lookahead+3 >= lengthOfFile)
@@ -96,25 +104,20 @@ int getTokenType()
 				if( fileContents[lookahead+1] == 'n' && 
 				fileContents[lookahead+2] == 'd' && fileContents[lookahead+3] == '.')
 				{
-//					printf("%c",fileContents[lookahead]);
-//					printf("%c",fileContents[lookahead+1]);
-//					printf("%c",fileContents[lookahead+2]);
-//					printf("%c",fileContents[lookahead+3]);
 					lookahead+=4;
 					return END;
 				}
 			}	
 		}
 
+		intCheckerAndStorage();
 		if(fileContents[lookahead] == ' ' || fileContents[lookahead] == '\t')
 		{
 			//do nothing
-//			printf("%c",fileContents[lookahead]);
 			lookahead++;
 		}	
 		else if(fileContents[lookahead] == '\n')
 		{
-//			printf("%c",fileContents[lookahead]);
 			lineno++;
 			lookahead++;
 		}
@@ -128,28 +131,21 @@ int getTokenType()
 		}
 		else if(fileContents[lookahead] == ';')
 		{
-//			printf("%c",fileContents[lookahead]);
 			lookahead++;
 			if(parenthesisCount != 0)
 			{
-			//	printf("Syntax error expected: ");
-				//display expected argument
-	       		//	printf("\n");
-				//break;
 				return PARENERROR;
 			}		
 			return ENDLINE;
 		}
 		else if(fileContents[lookahead] == '=')//Can only have 1!
 		{		
-//			printf("%c",fileContents[lookahead]);
 			lookahead++;
 			return EQUALS;
 		}
 
 		else if (fileContents[lookahead] == '+' || fileContents[lookahead] == '-' || fileContents[lookahead] == '/' || fileContents[lookahead] == '*')
 		{
-//			printf("%c",fileContents[lookahead]);
 			lookahead++;
 			return OPERATOR;
 		}
@@ -163,7 +159,6 @@ int getTokenType()
 			{
 				parenthesisCount--;
 			}
-//			printf("%c",fileContents[lookahead]);
 			lookahead++;
 			return OPERATOR;
 		}
@@ -171,7 +166,6 @@ int getTokenType()
 		{
 			if(fileContents[lookahead]== ' ')
 			{
-	//			printf("HERE");
 			}
 			else
 			{
@@ -181,16 +175,16 @@ int getTokenType()
 	}
 }
 
+//This function checks the validity of a value that starts with a number
 int recurseThroughNumber()
 {
 	char ch = (char) fileContents[lookahead];
 	if(isdigit(ch))
 	{
-	//	printf("%c",fileContents[lookahead]);
 		lookahead++;
 		return recurseThroughNumber();	
 	}
-	else if(isalpha(ch) || ch=='_' )
+	else if(isalpha(ch) || ch=='_')
 	{
 		//Cannot start with a number!
 		printf("invald");
@@ -202,17 +196,87 @@ int recurseThroughNumber()
 	}
 }
 
+
+void intCheckerAndStorage()
+{
+	//This needs to run until no longer in the ints
+	if(fileContents[lookahead] == 'i')
+	{
+		if(fileContents[lookahead+1] == 'n')
+		{
+			if(fileContents[lookahead+2] == 't')
+			{
+				if(fileContents[lookahead+3] == ' ')
+				{
+					lookahead+=3;
+					printf("int found");	
+					recurseThroughSymbolForInts();
+				//	intCheckerAndStorage();
+					//save word until , or ;
+					//if , save start saving new word
+					//if ; look for int again, but deal with newline and spaces
+				}
+			}
+		}
+	}
+
+}
+
+
+//This function helps check our final symbol table for the correct words
 void checkStorageArrayForWord(char* word)
 {
 	for (int i=0;i<99;i++)
 	{
 		break;
 	}
-
+//Lol i think this just adds the word to the array to print
 	words[insertionTracker] = word;
 	insertionTracker++;
 }
 
+//This function helps check our final symbol table for the correct words
+void insertIntoStorageArrayForInts(char* word)
+{
+	//intWords[] = word;
+	//insertionTracker++;
+}
+
+int recurseThroughSymbolForInts()
+{
+	char ch = (char) fileContents[lookahead];
+	if(ch == ',')
+	{	
+		insertIntoStorageArrayForInts(intStrings[intArraySpaceTracker]);
+		intArraySpaceTracker++;
+		//insertIntoStorageArrayForInts(intStrings[intArraySpaceTracker]);
+		lookahead++;//end current word but keep looping until ;
+		return recurseThroughSymbolForInts();
+		//return ID;
+	}
+	if(isalpha(ch) || isdigit(ch) || ch == '_')
+	{
+		//Add char/int/_ to symbol in int storage
+		strncat(intStrings[intArraySpaceTracker],&ch,1);
+		lookahead++;
+		return recurseThroughSymbolForInts();
+	}	
+	else if(ch == ' ')
+	{
+		lookahead++;//sometimes has spaces after ,
+	}
+	else//semicolon ; condition
+	{
+
+			insertIntoStorageArrayForInts(intStrings[intArraySpaceTracker]);
+			intArraySpaceTracker++;
+			//insertIntoStorageArrayForInts(intStrings[intArraySpaceTracker]);
+			lookahead++;
+			return ID;	//Now, need to look for int again, but deal with newline and spaces
+	}
+}
+
+//This function recursively searches symbols that begin with a letter
 int recurseThroughSymbol()
 {
 	char ch = (char) fileContents[lookahead];
@@ -234,12 +298,11 @@ int recurseThroughSymbol()
 		{
 			numUnderscores=0;
 		}
-	//	printf("%c",fileContents[lookahead]);
 		lookahead++;
 		return recurseThroughSymbol();
 	}	
 	
-	else
+	else//most likely catches a space
 	{
 		if(numUnderscores>0)
 		{
@@ -254,6 +317,7 @@ int recurseThroughSymbol()
 	}
 }
 
+//This checks the final symbol table for duplicate symbols and corrects if any are found
 void checkArrayForDuplicates()
 {
 	for(int i=0;i<insertionTracker;i++)

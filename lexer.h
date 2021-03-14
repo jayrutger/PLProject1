@@ -21,23 +21,28 @@
 #define MISSINGOPERATOR 12
 #define UNDERSCOREERROR 31
 #define BEGINERROR 214
+#define UNDEFINEDVAR 321
 
 int insertionTracker;
 int arraySpaceTracker;
+int intArraySpaceTracker;
 int tokenval;
 int lookahead;
 int lineno;
 int numUnderscores;
 
 char* words[99];
+char* intWords[99];
 char str[99][99];
+char intStrings[99][99];
 int parenthesisCount;
-
 
 void checkStorageArrayForWord(char* word);
 int getTokenType();
 int recurseThroughNumber();
 int recurseThroughSymbol();
-
 void checkArrayForDuplicates();
+void intCheckerAndStorage();
+int recurseThroughSymbolForInts();
+
 #endif
