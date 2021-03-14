@@ -97,7 +97,7 @@ int getTokenType()
 		{
 			if(lookahead+3 >= lengthOfFile)
 			{
-				//cant be begin, continue on
+				//cant be end, continue on
 			}
 			else//if there is space for "end"
 			{
@@ -131,7 +131,12 @@ int getTokenType()
 		}
 		else if(fileContents[lookahead] == ';')
 		{
+			afterEquals=0;
 			lookahead++;
+			registerArrayTracker = 0;;
+			memset(&registerArray[0],0,sizeof(registerArray));
+		
+			printf(" semicolon hit ");
 			if(parenthesisCount != 0)
 			{
 				return PARENERROR;
@@ -139,8 +144,10 @@ int getTokenType()
 			return ENDLINE;
 		}
 		else if(fileContents[lookahead] == '=')//Can only have 1!
-		{		
+		{	
+			afterEquals=1;	
 			lookahead++;
+			//printf("Equals hit");
 			return EQUALS;
 		}
 
@@ -181,17 +188,20 @@ int recurseThroughNumber()
 	char ch = (char) fileContents[lookahead];
 	if(isdigit(ch))
 	{
+		strncat(registerArray[registerArrayTracker],&ch,1);
+	//	registerArrayTracker++;
 		lookahead++;
 		return recurseThroughNumber();	
 	}
 	else if(isalpha(ch) || ch=='_')
 	{
 		//Cannot start with a number!
-		printf("invald");
+		printf("invalid");
 		return ERROR;
 	}
 	else//is an operator?
 	{
+		registerArrayTracker++;//number is over, add to list!
 		return NUM;
 	}
 }
@@ -226,16 +236,10 @@ void intCheckerAndStorage()
 //This function helps check our final symbol table for the correct words
 void checkStorageArrayForWord(char* word)
 {
-	for (int i=0;i<99;i++)
-	{
-		break;
-	}
-//Lol i think this just adds the word to the array to print
 	words[insertionTracker] = word;
 	insertionTracker++;
 }
 
-//This function helps check our final symbol table for the correct words
 void insertIntoStorageArrayForInts(char* word)
 {
 	//intWords[] = word;
@@ -301,7 +305,7 @@ int recurseThroughSymbol()
 			}
 		}
 
-		else
+	else
 		{
 			numUnderscores=0;
 		}
@@ -317,7 +321,20 @@ int recurseThroughSymbol()
 		}
 		else
 		{
+			//char* finishedWord = str
 			checkStorageArrayForWord(str[arraySpaceTracker]);
+			if(afterEquals==0)//if afterEquals is false, which means its before equals
+			{
+				beforeEqualsWord = str[arraySpaceTracker];	
+			}
+			else
+			{
+				//Add to registerArray, increment registerarray value
+				//registerArray[registerArrayTracker]=str[arraySpaceTracker];
+				strcpy(registerArray[registerArrayTracker],str[arraySpaceTracker]);
+				registerArrayTracker++;
+
+			}
 			arraySpaceTracker++;
 			return ID;
 		}	

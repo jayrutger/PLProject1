@@ -26,16 +26,20 @@
 int insertionTracker;
 int arraySpaceTracker;
 int intArraySpaceTracker;
+int registerArrayTracker;
 int tokenval;
 int lookahead;
 int lineno;
 int numUnderscores;
+int afterEquals;
 
+char registerArray[99][99];
 char* words[99];
 char* intWords[99];
 char str[99][99];
 char intStrings[99][99];
 int parenthesisCount;
+char* beforeEqualsWord;
 
 void checkStorageArrayForWord(char* word);
 int getTokenType();

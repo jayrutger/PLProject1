@@ -107,8 +107,24 @@ int main(int argc, char** argv)
 			break;
 		}
 		//printf("%c",intStrings[1][0]);//prints ints
+		printf("%s","BE Word:");
+		printf("%s",beforeEqualsWord);
+
+		printf("\n");
+		
+		printf("%s","Register Word 1:");
+		printf("%s",registerArray[0]);
+		
+		printf("\n");
+
+		printf("%s","Register Word 2:");
+		printf("%s",registerArray[1]);
+		
+		printf("\n");
 	}
 
+//		printf("%s","BE Word:");
+//		printf("%s",beforeEqualsWord);
 	fclose(fp);
 	exit(EXIT_SUCCESS);
 }
