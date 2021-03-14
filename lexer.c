@@ -208,8 +208,8 @@ void intCheckerAndStorage()
 			{
 				if(fileContents[lookahead+3] == ' ')
 				{
-					lookahead+=3;
-					printf("int found");	
+					lookahead+=4;
+	//				printf(" int found ");	
 					recurseThroughSymbolForInts();
 				//	intCheckerAndStorage();
 					//save word until , or ;
@@ -250,12 +250,15 @@ int recurseThroughSymbolForInts()
 		insertIntoStorageArrayForInts(intStrings[intArraySpaceTracker]);
 		intArraySpaceTracker++;
 		//insertIntoStorageArrayForInts(intStrings[intArraySpaceTracker]);
+	//	printf(" comma found ");	
 		lookahead++;//end current word but keep looping until ;
 		return recurseThroughSymbolForInts();
 		//return ID;
 	}
 	if(isalpha(ch) || isdigit(ch) || ch == '_')
 	{
+
+	//	printf(" char found ");	
 		//Add char/int/_ to symbol in int storage
 		strncat(intStrings[intArraySpaceTracker],&ch,1);
 		lookahead++;
@@ -263,11 +266,15 @@ int recurseThroughSymbolForInts()
 	}	
 	else if(ch == ' ')
 	{
+
+	//	printf(" space found ");	
 		lookahead++;//sometimes has spaces after ,
+		return recurseThroughSymbolForInts();
 	}
 	else//semicolon ; condition
 	{
 
+	//		printf(" semicolon found ");	
 			insertIntoStorageArrayForInts(intStrings[intArraySpaceTracker]);
 			intArraySpaceTracker++;
 			//insertIntoStorageArrayForInts(intStrings[intArraySpaceTracker]);

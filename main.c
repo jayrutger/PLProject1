@@ -94,7 +94,7 @@ int main(int argc, char** argv)
 			printf("\nSuccess!\n");
 			for(int i=0;i<15;i++)
 			{
-				//printf("%s",words[i]);
+				printf("%s",words[i]);
 //				printf("%s",intStrings[i]);//prints ints
 				if(i==insertionTracker-1)
 				{
@@ -106,7 +106,7 @@ int main(int argc, char** argv)
 			printf("\n");
 			break;
 		}
-		printf("%c",intStrings[1][0]);//prints ints
+		//printf("%c",intStrings[1][0]);//prints ints
 	}
 
 	fclose(fp);
