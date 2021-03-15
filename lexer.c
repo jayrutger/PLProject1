@@ -131,10 +131,25 @@ int getTokenType()
 		}
 		else if(fileContents[lookahead] == ';')
 		{
-			savedOperation='\0';//might not need?
+		//	savedOperation='\0';//might not need?
+			if(operationSaved == 1)//One remaining operation left to append
+			{	
+				afterEquals=0;
+				lookahead++;
+				strncat(registerArray[registerArrayTracker],&savedOperation,1);
+				registerArrayTracker = 0;
+				return ENDLINE;
+			}
+			else
+			{
+			/*printf("\n");
+			printf("saved sym target location:");
+			printf("%d",registerArrayTracker);
+			printf("\n");
+			*/
 			afterEquals=0;
 			lookahead++;
-			registerArrayTracker = 0;;
+			registerArrayTracker = 0;
 			memset(&registerArray[0],0,sizeof(registerArray));
 		
 			printf("\nsemicolon hit ");
@@ -143,6 +158,7 @@ int getTokenType()
 				return PARENERROR;
 			}		
 			return ENDLINE;
+			}
 		}
 		else if(fileContents[lookahead] == '=')//Can only have 1!
 		{	
@@ -204,6 +220,7 @@ int getTokenType()
 						registerArrayTracker++;//Go to spot AFTER operand, since it got moved ahead. Avoids overwriting!
 					}
 					strncat(registerArray[registerArrayTracker],&savedOperation,1);
+					savedOperation='\0';
 					//might have to check if something is already there, like an operation already
 					operationSaved =0;
 				}
