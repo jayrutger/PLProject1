@@ -6,7 +6,7 @@
 /*******************************************
  * Class: Programming Languages with Dr. Coffey
 
- * Project 1: Recursive-Descent Parser
+ * Project 2: Recursive-Descent Parser Register Output
 
  * Student: James Rutger
  
@@ -17,7 +17,10 @@
  * Main also does the file I/O taking in
  * the a1-a8 files and storing them into
  * a single string from which I read from
- * to do my work.
+ * to do my work. For part 2 I tacked on 
+ * trackers in lexer.h to work with the 
+ * register terms operation symbols, and 
+ * before-equals sign terms.
 ********************************************/
 int main(int argc, char** argv)
 {
@@ -137,7 +140,7 @@ int main(int argc, char** argv)
 
 				//		printf("Third value seen: ");
 				//		printf("%s",registerArray[i+2]);
-				//		printf("\n");
+			//			printf("\n");
 						if(operandChecker3 == '+'|| operandChecker3 == '-'|| operandChecker3 == '/'|| operandChecker3 == '*')
 						{
 							//n++?
@@ -158,7 +161,6 @@ int main(int argc, char** argv)
 						else//if 2 IDs in a row, and third ISNT operation
 						{
 
-							printf("FUCKNOTHERE");
 						/*	
 							printf("R");
 							printf("%d",n-1);
@@ -203,7 +205,6 @@ int main(int argc, char** argv)
 				else//if first thing seen is a OPERATION, use on your Rn(0) and Rn+1
 				{
 
-							//printf("HUH");
 							n-=2;
 							printf("R");
 							printf("%d",n);
@@ -252,6 +253,7 @@ int main(int argc, char** argv)
 				}	
 			}
 			memset(&registerArray[0],0,sizeof(registerArray));
+			printf("\n");
 		}
 		else if (tokenType == DONE)
 		{
@@ -270,9 +272,9 @@ int main(int argc, char** argv)
 				}
 				
 				//printed out comma for list
-			//	printf(",");
+		//		printf(",");
 			}
-			//printf("\n");
+			printf("\n");
 			break;
 		}
 
@@ -283,6 +285,7 @@ int main(int argc, char** argv)
 		}*/
 		//printf(" END ");
 
+		//printf("\n");
 	//	printf("%s\n",registerArray);
 		//printf("%c",intStrings[1][0]);//prints ints
 	/*	printf("%s","BE Word:");
@@ -360,7 +363,7 @@ int main(int argc, char** argv)
 		printf("%s",registerArray[13]);
 		
 		printf("\n");
-	*/
+*/
 	}
 
 //		printf("%s","BE Word:");

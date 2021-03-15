@@ -8,7 +8,7 @@
 /*******************************************
  * Programming Languages with Dr. Coffey
  * 
- * Project 1: Recursive-Descent Parser
+ * Project 2: Recursive-Descent Parser Register Output
  * 
  * Student: James Rutger
  * 
@@ -20,10 +20,14 @@
  * getTokenType, reads from the string which
  * holds the file contents, and determines
  * which tokens to return to main based on
- * what it reads. 
+ * what it reads. For part 2 I added on tracker
+ * for saving register words, and postfix terms,
+ * aligning them in the right order before adding
+ * them to their char arrays. 
 ********************************************/
 //This function reads the file contents string, and assignes token types accordingly. 
-//It calls recursive function to read numbers and symbols as well
+//It calls recursive function to read numbers and symbols as well, and stores them into
+//the register array
 int getTokenType()
 {
 	while(1){
@@ -181,17 +185,9 @@ int getTokenType()
 			}
 			else
 			{
-			/*printf("\n");
-			printf("saved sym target location:");
-			printf("%d",registerArrayTracker);
-			printf("\n");
-			*/
 			afterEquals=0;
 			lookahead++;
 			registerArrayTracker = 0;
-			//memset(&registerArray[0],0,sizeof(registerArray));
-		
-			//printf("\nsemicolon hit ");
 			if(parenthesisCount != 0)
 			{
 				return PARENERROR;
@@ -203,7 +199,6 @@ int getTokenType()
 		{	
 			afterEquals=1;	
 			lookahead++;
-			//printf("Equals hit");
 			return EQUALS;
 		}
 
@@ -214,17 +209,6 @@ int getTokenType()
 			char ch1 = fileContents[lookahead];
 			//Add operand to NEXT spot in registerArray, so to be after the second term (since it shows up b/w terms)
 			char bSymbol = registerArray[registerArrayTracker][0];
-			//strncat(registerArray[registerArrayTracker+1],&ch1,1);
-			//printf("\n");
-			//printf("before symbol:");
-			//printf("%c",bSymbol);
-			//printf("\n");
-/*
-			printf("\n");
-			printf("current location:");
-			printf("%d",registerArrayTracker);
-			printf("\n");
-*/
 		       	if(bSymbol == '+' || bSymbol == '-' || bSymbol == '*' || bSymbol== '/')
 			{
 				strncat(registerArray[registerArrayTracker+2],&ch1,1);
@@ -233,7 +217,6 @@ int getTokenType()
 			{	
 				strncat(registerArray[registerArrayTracker+1],&ch1,1);
 			}
-			//registerArrayTracker++;
 			lookahead++;
 			return OPERATOR;
 		}
@@ -248,9 +231,6 @@ int getTokenType()
 				if(operationSaved == 1)
 				{
 
-			//	printf("\n");
-					//printf("Op saved");
-			//		printf("\n");
 					//if operation has been saved, and end of parenth is reached, add saved op to end of register array
 					char operandChecker = registerArray[registerArrayTracker][0];
 					//Check place where youre about to fill out
@@ -265,21 +245,11 @@ int getTokenType()
 				}
 				else
 				{
-				//	printf("\n");
-					//printf("Op not saved");
-					//printf("\n");
 				}
 				char afterLookahead = fileContents[lookahead+1];
 
-				//	printf("\n");
-				//	printf("AfterLookahead1:");
-				//	printf("%c",afterLookahead);
-				//	printf("\n");
 		       		if(afterLookahead == '+' || afterLookahead == '-' || afterLookahead == '*' || afterLookahead== '/')
 				{
-					//printf("\n");
-					//printf("Op fnd in lookahead, no space");
-					//printf("\n");
 					savedOperation = afterLookahead;
 					operationSaved = 1;//will use as a flag to skip that operation from saving in register right now
 					lookahead++;//we have seen through the next and handled it, so skip it
@@ -288,28 +258,22 @@ int getTokenType()
 				{
 					char afterLookahead2 = fileContents[lookahead+2];
 					printf("\n");
-				//	printf("AfterLookahead2:");
-				//	printf("%c",afterLookahead2);
-				//	printf("\n");
 		       			if(afterLookahead2 == '+' || afterLookahead2 == '-' || afterLookahead2 == '*' || afterLookahead2 == '/')
 					{
 
-				//		printf("/n");
-				//		printf("Op fnd in lookahead, no space");
-				//		printf("/n");
 						savedOperation =afterLookahead2;
 						operationSaved=1;
 						lookahead+=2;//skip the whitespace and operation, we have handled it
 					}
 
 				}
-
-
 				parenthesisCount--;
 			}
+
 			lookahead++;
 			return OPERATOR;
 		}
+
 		else
 		{
 			if(fileContents[lookahead]== ' ')
@@ -323,7 +287,7 @@ int getTokenType()
 	}
 }
 
-//This function checks the validity of a value that starts with a number
+//This function checks the validity of a value that starts with a number, and saves it to the register table
 int recurseThroughNumber()
 {
 	char ch = (char) fileContents[lookahead];
@@ -337,7 +301,6 @@ int recurseThroughNumber()
 		}
 
 		strncat(registerArray[registerArrayTracker],&ch,1);
-	//	registerArrayTracker++;
 		lookahead++;
 		return recurseThroughNumber();	
 	}
@@ -354,7 +317,7 @@ int recurseThroughNumber()
 	}
 }
 
-
+//This function checks to see if the symbol was declared
 void intCheckerAndStorage()
 {
 	//This needs to run until no longer in the ints
@@ -367,12 +330,7 @@ void intCheckerAndStorage()
 				if(fileContents[lookahead+3] == ' ')
 				{
 					lookahead+=4;
-	//				printf(" int found ");	
 					recurseThroughSymbolForInts();
-				//	intCheckerAndStorage();
-					//save word until , or ;
-					//if , save start saving new word
-					//if ; look for int again, but deal with newline and spaces
 				}
 			}
 		}
@@ -381,19 +339,21 @@ void intCheckerAndStorage()
 }
 
 
-//This function helps check our final symbol table for the correct words
+//This function helps check our final symbol table for the correct words (project 1)
 void checkStorageArrayForWord(char* word)
 {
 	words[insertionTracker] = word;
 	insertionTracker++;
 }
 
+//Unused
 void insertIntoStorageArrayForInts(char* word)
 {
 	//intWords[] = word;
 	//insertionTracker++;
 }
 
+//This function searches through all declared ints and saves them for later reference
 int recurseThroughSymbolForInts()
 {
 	char ch = (char) fileContents[lookahead];
@@ -401,17 +361,12 @@ int recurseThroughSymbolForInts()
 	{	
 		insertIntoStorageArrayForInts(intStrings[intArraySpaceTracker]);
 		intArraySpaceTracker++;
-		//insertIntoStorageArrayForInts(intStrings[intArraySpaceTracker]);
-	//	printf(" comma found ");	
 		lookahead++;//end current word but keep looping until ;
 		return recurseThroughSymbolForInts();
-		//return ID;
 	}
 	if(isalpha(ch) || isdigit(ch) || ch == '_')
 	{
 
-	//	printf(" char found ");	
-		//Add char/int/_ to symbol in int storage
 		strncat(intStrings[intArraySpaceTracker],&ch,1);
 		lookahead++;
 		return recurseThroughSymbolForInts();
@@ -419,23 +374,20 @@ int recurseThroughSymbolForInts()
 	else if(ch == ' ')
 	{
 
-	//	printf(" space found ");	
 		lookahead++;//sometimes has spaces after ,
 		return recurseThroughSymbolForInts();
 	}
 	else//semicolon ; condition
 	{
 
-	//		printf(" semicolon found ");	
 			insertIntoStorageArrayForInts(intStrings[intArraySpaceTracker]);
 			intArraySpaceTracker++;
-			//insertIntoStorageArrayForInts(intStrings[intArraySpaceTracker]);
 			lookahead++;
 			return ID;	//Now, need to look for int again, but deal with newline and spaces
 	}
 }
 
-//This function recursively searches symbols that begin with a letter
+//This function recursively searches symbols that begin with a letter, and saved these words to the register array
 int recurseThroughSymbol()
 {
 	char ch = (char) fileContents[lookahead];
@@ -475,7 +427,6 @@ int recurseThroughSymbol()
 		}
 		else
 		{
-			//char* finishedWord = str
 			checkStorageArrayForWord(str[arraySpaceTracker]);
 			if(afterEquals==0)//if afterEquals is false, which means its before equals
 			{
@@ -486,7 +437,6 @@ int recurseThroughSymbol()
 			else
 			{
 				//Add to registerArray, increment registerarray value
-				//registerArray[registerArrayTracker]=str[arraySpaceTracker];
 				strcpy(registerArray[registerArrayTracker],str[arraySpaceTracker]);
 				registerArrayTracker++;
 
@@ -497,7 +447,7 @@ int recurseThroughSymbol()
 	}
 }
 
-//This checks the final symbol table for duplicate symbols and corrects if any are found
+//This checks the final symbol table for duplicate symbols and corrects if any are found (project 1)
 void checkArrayForDuplicates()
 {
 	for(int i=0;i<insertionTracker;i++)
