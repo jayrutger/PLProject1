@@ -99,10 +99,10 @@ int main(int argc, char** argv)
 			//	int i=0;
 			//	int n=0;
 				char operandChecker = registerArray[i][0];
-				printf("\n");
-				printf("first value seen: ");
-				printf("%s",registerArray[i]);
-				printf("\n");
+			//	printf("\n");
+			//	printf("first value seen: ");
+			//	printf("%s",registerArray[i]);
+			//	printf("\n");
 				//if it isnt an operation, which means an ID or number
 				if(operandChecker != '+' && operandChecker != '-' && operandChecker != '/' && operandChecker != '*')
 				{
@@ -123,6 +123,7 @@ int main(int argc, char** argv)
 						{
 				//			printf("SHOULD NOT BE HERE");
 						}
+			
 						printf("R");
 						printf("%d",n+1);
 						printf(" = ");
@@ -148,14 +149,9 @@ int main(int argc, char** argv)
 							printf("R");
 							printf("%d",n+1);
 							printf("\n");
-						//	printf("MADEITRHERE");
 							n++;
 							i+=3;
 	
-							//printf("\n");
-						//	printf("next value seen: ");
-						//	printf("%s",registerArray[i]);
-						//	printf("\n");
 						}
 						else//if 2 IDs in a row, and third ISNT operation
 						{
@@ -187,7 +183,7 @@ int main(int argc, char** argv)
 							printf("R");
 							printf("%d",n);
 							printf("\n");
-							n++;
+							//n++;
 							i+=2;
 							
 					}
@@ -201,8 +197,8 @@ int main(int argc, char** argv)
 				}	
 				else//if first thing seen is a OPERATION, use on your Rn(0) and Rn+1
 				{
-					//		printf("HUH");
-
+							//printf("HUH");
+							n--;
 							printf("R");
 							printf("%d",n);
 							printf(" = ");
