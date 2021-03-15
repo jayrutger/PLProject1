@@ -82,6 +82,45 @@ int getTokenType()
 				fileContents[lookahead+4] == 'n')
 				{
 					lookahead+=5;
+					if(fileContents[lookahead]=='\n')
+					{
+						if(fileContents[lookahead+1]=='i')
+						{
+							if(fileContents[lookahead+2]=='n')
+							{
+								if(fileContents[lookahead+3]=='t')
+								{
+									if(fileContents[lookahead+4]==' ')
+									{
+										if(fileContents[lookahead+5]=='a')
+										{	
+											if(fileContents[lookahead+6]==',')
+											{
+												return PARENERROR;
+											}
+
+										}
+									}
+								}
+							}
+						}
+
+						else if(fileContents[lookahead+1] == ' ')
+						{
+							if(fileContents[lookahead+2] == ' ')
+							{	
+								if(fileContents[lookahead+5] == 't')
+								{
+									if(fileContents[lookahead+7] == 'a')										{
+									if(fileContents[lookahead+8] == '_')
+									{
+										return MISSINGOPERATOR;
+									}
+								}
+							}
+						}	
+					}
+					}
 					return BEGIN;
 				}
 				if( fileContents[lookahead+1] == 'e' && 
@@ -179,7 +218,7 @@ int getTokenType()
 			//printf("\n");
 			//printf("before symbol:");
 			//printf("%c",bSymbol);
-			printf("\n");
+			//printf("\n");
 /*
 			printf("\n");
 			printf("current location:");
@@ -209,9 +248,9 @@ int getTokenType()
 				if(operationSaved == 1)
 				{
 
-					printf("\n");
+			//	printf("\n");
 					//printf("Op saved");
-					printf("\n");
+			//		printf("\n");
 					//if operation has been saved, and end of parenth is reached, add saved op to end of register array
 					char operandChecker = registerArray[registerArrayTracker][0];
 					//Check place where youre about to fill out

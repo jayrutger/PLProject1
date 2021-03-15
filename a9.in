@@ -1,9 +1,0 @@
-begin
-int a; int b;
-int qwerty;
-int xyz;
-
-  xyz = (9*8*7*6)/(a+b+c);
-
-end.
-

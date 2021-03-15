@@ -42,6 +42,7 @@ int main(int argc, char** argv)
 
 		printf("compiling ");
 	       	printf("%s",cmdInput);
+		printf("\n");
 
 	while(1){
 		int tokenType = getTokenType();
@@ -53,21 +54,21 @@ int main(int argc, char** argv)
 	       		printf("\n");
 			break;
 		}
-		if(tokenType == UNDERSCOREERROR)
+		else if(tokenType == UNDERSCOREERROR)
 		{
 			printf("\nSyntax Error! Underscore at the end of a symbol\n");
 			//display expected argument
 	       		printf("\n");
 			break;
 		}
-		if(tokenType == BEGINERROR)
+		else if(tokenType == BEGINERROR)
 		{
 			printf("\nSyntax Error! Begin Mispelled!\n");
 			//display expected argument
 	       		printf("\n");
 			break;
 		}
-		if(tokenType == PARENERROR)
+		else if(tokenType == PARENERROR)
 		{
 			printf("\nSyntax Error! Parenthesis expected!\n");
 			//display expected argument
@@ -75,7 +76,7 @@ int main(int argc, char** argv)
 			break;
 		}
 
-		if(tokenType == MISSINGOPERATOR)
+		else if(tokenType == MISSINGOPERATOR)
 		{
 			printf("\nSyntax Error! Missing operator\n");
 			//display expected argument
@@ -117,6 +118,10 @@ int main(int argc, char** argv)
 					//printf("Second value seen: ");
 					//printf("%c",registerArray[i+1][0]);
 					//printf("\n");
+					if(registerArray[i+1][0] =='\0')
+					{
+						break;
+					}
 					if(operandChecker2 != '+' && operandChecker2 != '-' && operandChecker2 != '/' && operandChecker2 != '*')
 					{
 						if(registerArray[i+1][0]!= '+')
@@ -152,6 +157,8 @@ int main(int argc, char** argv)
 						}
 						else//if 2 IDs in a row, and third ISNT operation
 						{
+
+							printf("FUCKNOTHERE");
 						/*	
 							printf("R");
 							printf("%d",n-1);
@@ -164,6 +171,7 @@ int main(int argc, char** argv)
 							printf("\n");
 							break;
 							*/
+							break;
 						}
 
 						
@@ -212,7 +220,6 @@ int main(int argc, char** argv)
 				}	
 			}
 		
-			//printf("\n");
 			printf("%s", BEWordArray[beWordNum]);	
 			printf(" = ");
 			printf("R0");
@@ -258,14 +265,14 @@ int main(int argc, char** argv)
 //				printf("%s",intStrings[i]);//prints ints
 				if(i==insertionTracker-1)
 				{
-					printf("\n");
+			//		printf("\n");
 					break;
 				}
 				
 				//printed out comma for list
 			//	printf(",");
 			}
-			printf("\n");
+			//printf("\n");
 			break;
 		}
 
