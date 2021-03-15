@@ -440,7 +440,9 @@ int recurseThroughSymbol()
 			checkStorageArrayForWord(str[arraySpaceTracker]);
 			if(afterEquals==0)//if afterEquals is false, which means its before equals
 			{
-				beforeEqualsWord = str[arraySpaceTracker];	
+				beforeEqualsWord = str[arraySpaceTracker];
+				BEWordArray[beIndex] = str[arraySpaceTracker];
+				beIndex++;	
 			}
 			else
 			{

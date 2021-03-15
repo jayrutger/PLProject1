@@ -33,6 +33,9 @@ int lineno;
 int numUnderscores;
 int afterEquals;
 int operationSaved;
+int beIndex;
+
+char* BEWordArray[99];
 char registerArray[999][999];
 char* words[99];
 char* intWords[99];

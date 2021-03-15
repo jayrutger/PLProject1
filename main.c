@@ -120,10 +120,6 @@ int main(int argc, char** argv)
 					if(operandChecker2 != '+' && operandChecker2 != '-' && operandChecker2 != '/' && operandChecker2 != '*')
 					{
 						if(registerArray[i+1][0]!= '+')
-						{
-				//			printf("SHOULD NOT BE HERE");
-						}
-			
 						printf("R");
 						printf("%d",n+1);
 						printf(" = ");
@@ -140,6 +136,7 @@ int main(int argc, char** argv)
 						if(operandChecker3 == '+'|| operandChecker3 == '-'|| operandChecker3 == '/'|| operandChecker3 == '*')
 						{
 							//n++?
+							//printf("OTHERHUH");
 							printf("R");
 							printf("%d",n);
 							printf(" = ");
@@ -197,8 +194,9 @@ int main(int argc, char** argv)
 				}	
 				else//if first thing seen is a OPERATION, use on your Rn(0) and Rn+1
 				{
+
 							//printf("HUH");
-							n--;
+							n-=2;
 							printf("R");
 							printf("%d",n);
 							printf(" = ");
@@ -213,6 +211,13 @@ int main(int argc, char** argv)
 					break;
 				}	
 			}
+		
+			//printf("\n");
+			printf("%s", BEWordArray[beWordNum]);	
+			printf(" = ");
+			printf("R0");
+			printf("\n");
+			beWordNum++;
 
 			for(int k=0;k<15;k++)
 			{

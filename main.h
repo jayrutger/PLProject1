@@ -8,6 +8,6 @@ FILE* fp;
 int lengthOfFile;
 int c;
 int fileContents[999]; 
-
+int beWordNum;
 
 #endif
