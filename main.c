@@ -91,6 +91,133 @@ int main(int argc, char** argv)
 		else if(tokenType == ENDLINE)//FINISHED ONE LINE
 		{
 
+			int i=0;
+			int n=0;
+			//Register array printouts
+			while(1)
+			{
+			//	int i=0;
+			//	int n=0;
+				char operandChecker = registerArray[i][0];
+				printf("\n");
+				printf("first value seen: ");
+				printf("%s",registerArray[i]);
+				printf("\n");
+				//if it isnt an operation, which means an ID or number
+				if(operandChecker != '+' && operandChecker != '-' && operandChecker != '/' && operandChecker != '*')
+				{
+					printf("R");
+					printf("%d",n);
+					printf(" = ");
+					printf("%s",registerArray[i]);
+					printf("\n");
+					//Save as R0
+					//if youre ON an ID/number, and your NEXT is an ID (not an operator) 
+					char operandChecker2 = registerArray[i+1][0];
+					//printf("Second value seen: ");
+					//printf("%c",registerArray[i+1][0]);
+					//printf("\n");
+					if(operandChecker2 != '+' && operandChecker2 != '-' && operandChecker2 != '/' && operandChecker2 != '*')
+					{
+						if(registerArray[i+1][0]!= '+')
+						{
+				//			printf("SHOULD NOT BE HERE");
+						}
+						printf("R");
+						printf("%d",n+1);
+						printf(" = ");
+						printf("%s",registerArray[i+1]);
+						printf("\n");
+						//Save as R1
+						//Save R0, set hasPreviousTerm = 1, also possibly n++ for Rn
+						//Loop to beginning	
+						char operandChecker3 = registerArray[i+2][0];
+
+				//		printf("Third value seen: ");
+				//		printf("%s",registerArray[i+2]);
+				//		printf("\n");
+						if(operandChecker3 == '+'|| operandChecker3 == '-'|| operandChecker3 == '/'|| operandChecker3 == '*')
+						{
+							//n++?
+							printf("R");
+							printf("%d",n);
+							printf(" = ");
+							printf("R");
+							printf("%d",n);
+							printf("%c",operandChecker3);
+							printf("R");
+							printf("%d",n+1);
+							printf("\n");
+						//	printf("MADEITRHERE");
+							n++;
+							i+=3;
+	
+							//printf("\n");
+						//	printf("next value seen: ");
+						//	printf("%s",registerArray[i]);
+						//	printf("\n");
+						}
+						else//if 2 IDs in a row, and third ISNT operation
+						{
+						/*	
+							printf("R");
+							printf("%d",n-1);
+							printf(" = ");
+							printf("R");
+							printf("%d",n-1);
+							printf("%c",operandChecker2);
+							printf("R");
+							printf("%d",n);
+							printf("\n");
+							break;
+							*/
+						}
+
+						
+					}
+					else//first thing you land on is an ID, and then next is a operator
+					{
+						
+							printf("R");
+							printf("%d",n-1);
+							printf(" = ");
+							printf("R");
+							printf("%d",n-1);
+							printf("%c",operandChecker2);
+							printf("R");
+							printf("%d",n);
+							printf("\n");
+							n++;
+							i+=2;
+							
+					}
+
+				//break;
+				//If youre on and ID/Number, and your NEXT is an
+				if(registerArray[i][0]=='\0')
+				 {
+					break;
+				 }
+				}	
+				else//if first thing seen is a OPERATION, use on your Rn(0) and Rn+1
+				{
+					//		printf("HUH");
+
+							printf("R");
+							printf("%d",n);
+							printf(" = ");
+							printf("R");
+							printf("%d",n);
+							printf("%c",operandChecker);
+							printf("R");
+							printf("%d",n+1);
+							printf("\n");
+							n++;
+
+					break;
+				}	
+			}
+
 			for(int k=0;k<15;k++)
 			{
 				if(k==0)
@@ -124,14 +251,18 @@ int main(int argc, char** argv)
 			printf("\nSuccess!\n");
 			for(int i=0;i<15;i++)
 			{
-				printf("%s",words[i]);
+
+				//printed out original list of ID's
+				//printf("%s",words[i]);
 //				printf("%s",intStrings[i]);//prints ints
 				if(i==insertionTracker-1)
 				{
 					printf("\n");
 					break;
 				}
-				printf(",");
+				
+				//printed out comma for list
+			//	printf(",");
 			}
 			printf("\n");
 			break;

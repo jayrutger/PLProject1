@@ -152,7 +152,7 @@ int getTokenType()
 			registerArrayTracker = 0;
 			//memset(&registerArray[0],0,sizeof(registerArray));
 		
-			printf("\nsemicolon hit ");
+			//printf("\nsemicolon hit ");
 			if(parenthesisCount != 0)
 			{
 				return PARENERROR;
@@ -176,9 +176,9 @@ int getTokenType()
 			//Add operand to NEXT spot in registerArray, so to be after the second term (since it shows up b/w terms)
 			char bSymbol = registerArray[registerArrayTracker][0];
 			//strncat(registerArray[registerArrayTracker+1],&ch1,1);
-			printf("\n");
-			printf("before symbol:");
-			printf("%c",bSymbol);
+			//printf("\n");
+			//printf("before symbol:");
+			//printf("%c",bSymbol);
 			printf("\n");
 /*
 			printf("\n");
@@ -210,7 +210,7 @@ int getTokenType()
 				{
 
 					printf("\n");
-					printf("Op saved");
+					//printf("Op saved");
 					printf("\n");
 					//if operation has been saved, and end of parenth is reached, add saved op to end of register array
 					char operandChecker = registerArray[registerArrayTracker][0];
@@ -226,21 +226,21 @@ int getTokenType()
 				}
 				else
 				{
-					printf("\n");
-					printf("Op not saved");
-					printf("\n");
+				//	printf("\n");
+					//printf("Op not saved");
+					//printf("\n");
 				}
 				char afterLookahead = fileContents[lookahead+1];
 
-					printf("\n");
-					printf("AfterLookahead1:");
-					printf("%c",afterLookahead);
-					printf("\n");
+				//	printf("\n");
+				//	printf("AfterLookahead1:");
+				//	printf("%c",afterLookahead);
+				//	printf("\n");
 		       		if(afterLookahead == '+' || afterLookahead == '-' || afterLookahead == '*' || afterLookahead== '/')
 				{
-					printf("\n");
-					printf("Op fnd in lookahead, no space");
-					printf("\n");
+					//printf("\n");
+					//printf("Op fnd in lookahead, no space");
+					//printf("\n");
 					savedOperation = afterLookahead;
 					operationSaved = 1;//will use as a flag to skip that operation from saving in register right now
 					lookahead++;//we have seen through the next and handled it, so skip it
@@ -249,15 +249,15 @@ int getTokenType()
 				{
 					char afterLookahead2 = fileContents[lookahead+2];
 					printf("\n");
-					printf("AfterLookahead2:");
-					printf("%c",afterLookahead2);
-					printf("\n");
+				//	printf("AfterLookahead2:");
+				//	printf("%c",afterLookahead2);
+				//	printf("\n");
 		       			if(afterLookahead2 == '+' || afterLookahead2 == '-' || afterLookahead2 == '*' || afterLookahead2 == '/')
 					{
 
-						printf("/n");
-						printf("Op fnd in lookahead, no space");
-						printf("/n");
+				//		printf("/n");
+				//		printf("Op fnd in lookahead, no space");
+				//		printf("/n");
 						savedOperation =afterLookahead2;
 						operationSaved=1;
 						lookahead+=2;//skip the whitespace and operation, we have handled it
