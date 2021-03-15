@@ -32,14 +32,15 @@ int lookahead;
 int lineno;
 int numUnderscores;
 int afterEquals;
-
-char registerArray[99][99];
+int operationSaved;
+char registerArray[999][999];
 char* words[99];
 char* intWords[99];
 char str[99][99];
 char intStrings[99][99];
 int parenthesisCount;
 char* beforeEqualsWord;
+char savedOperation;
 
 void checkStorageArrayForWord(char* word);
 int getTokenType();

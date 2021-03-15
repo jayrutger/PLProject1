@@ -121,6 +121,67 @@ int main(int argc, char** argv)
 		printf("%s",registerArray[1]);
 		
 		printf("\n");
+
+		printf("%s","Register Word 3:");
+		printf("%s",registerArray[2]);
+		
+		printf("\n");
+
+		printf("%s","Register Word 4:");
+		printf("%s",registerArray[3]);
+		
+		printf("\n");
+
+		printf("%s","Register Word 5:");
+		printf("%s",registerArray[4]);
+		
+		printf("\n");
+
+		printf("%s","Register Word 6:");
+		printf("%s",registerArray[5]);
+		
+		printf("\n");
+
+		printf("%s","Register Word 7:");
+		printf("%s",registerArray[6]);
+		
+		printf("\n");
+
+		printf("%s","Register Word 8:");
+		printf("%s",registerArray[7]);
+		
+		printf("\n");
+
+		printf("%s","Register Word 9:");
+		printf("%s",registerArray[8]);
+		
+		printf("\n");
+
+		printf("%s","Register Word 10:");
+		printf("%s",registerArray[9]);
+		
+		printf("\n");
+
+
+		printf("%s","Register Word 11:");
+		printf("%s",registerArray[10]);
+		
+		printf("\n");
+
+		printf("%s","Register Word 12:");
+		printf("%s",registerArray[11]);
+		
+		printf("\n");
+
+		printf("%s","Register Word 13:");
+		printf("%s",registerArray[12]);
+		
+		printf("\n");
+
+		printf("%s","Register Word 14:");
+		printf("%s",registerArray[13]);
+		
+		printf("\n");
 	}
 
 //		printf("%s","BE Word:");

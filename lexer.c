@@ -131,12 +131,13 @@ int getTokenType()
 		}
 		else if(fileContents[lookahead] == ';')
 		{
+			savedOperation='\0';//might not need?
 			afterEquals=0;
 			lookahead++;
 			registerArrayTracker = 0;;
 			memset(&registerArray[0],0,sizeof(registerArray));
 		
-			printf(" semicolon hit ");
+			printf("\nsemicolon hit ");
 			if(parenthesisCount != 0)
 			{
 				return PARENERROR;
@@ -153,6 +154,31 @@ int getTokenType()
 
 		else if (fileContents[lookahead] == '+' || fileContents[lookahead] == '-' || fileContents[lookahead] == '/' || fileContents[lookahead] == '*')
 		{
+
+	
+			char ch1 = fileContents[lookahead];
+			//Add operand to NEXT spot in registerArray, so to be after the second term (since it shows up b/w terms)
+			char bSymbol = registerArray[registerArrayTracker][0];
+			//strncat(registerArray[registerArrayTracker+1],&ch1,1);
+			printf("\n");
+			printf("before symbol:");
+			printf("%c",bSymbol);
+			printf("\n");
+/*
+			printf("\n");
+			printf("current location:");
+			printf("%d",registerArrayTracker);
+			printf("\n");
+*/
+		       	if(bSymbol == '+' || bSymbol == '-' || bSymbol == '*' || bSymbol== '/')
+			{
+				strncat(registerArray[registerArrayTracker+2],&ch1,1);
+			}
+			else
+			{	
+				strncat(registerArray[registerArrayTracker+1],&ch1,1);
+			}
+			//registerArrayTracker++;
 			lookahead++;
 			return OPERATOR;
 		}
@@ -164,6 +190,65 @@ int getTokenType()
 			}
 			else if(fileContents[lookahead] == ')')
 			{
+				if(operationSaved == 1)
+				{
+
+					printf("\n");
+					printf("Op saved");
+					printf("\n");
+					//if operation has been saved, and end of parenth is reached, add saved op to end of register array
+					char operandChecker = registerArray[registerArrayTracker][0];
+					//Check place where youre about to fill out
+					if(operandChecker == '+' || operandChecker == '-' || operandChecker == '/' || operandChecker == '*')
+					{
+						registerArrayTracker++;//Go to spot AFTER operand, since it got moved ahead. Avoids overwriting!
+					}
+					strncat(registerArray[registerArrayTracker],&savedOperation,1);
+					//might have to check if something is already there, like an operation already
+					operationSaved =0;
+				}
+				else
+				{
+					printf("\n");
+					printf("Op not saved");
+					printf("\n");
+				}
+				char afterLookahead = fileContents[lookahead+1];
+
+					printf("\n");
+					printf("AfterLookahead1:");
+					printf("%c",afterLookahead);
+					printf("\n");
+		       		if(afterLookahead == '+' || afterLookahead == '-' || afterLookahead == '*' || afterLookahead== '/')
+				{
+					printf("\n");
+					printf("Op fnd in lookahead, no space");
+					printf("\n");
+					savedOperation = afterLookahead;
+					operationSaved = 1;//will use as a flag to skip that operation from saving in register right now
+					lookahead++;//we have seen through the next and handled it, so skip it
+				}
+				else if(afterLookahead == ' ')
+				{
+					char afterLookahead2 = fileContents[lookahead+2];
+					printf("\n");
+					printf("AfterLookahead2:");
+					printf("%c",afterLookahead2);
+					printf("\n");
+		       			if(afterLookahead2 == '+' || afterLookahead2 == '-' || afterLookahead2 == '*' || afterLookahead2 == '/')
+					{
+
+						printf("/n");
+						printf("Op fnd in lookahead, no space");
+						printf("/n");
+						savedOperation =afterLookahead2;
+						operationSaved=1;
+						lookahead+=2;//skip the whitespace and operation, we have handled it
+					}
+
+				}
+
+
 				parenthesisCount--;
 			}
 			lookahead++;
@@ -188,6 +273,13 @@ int recurseThroughNumber()
 	char ch = (char) fileContents[lookahead];
 	if(isdigit(ch))
 	{
+		char operandChecker = registerArray[registerArrayTracker][0];
+		//Check place where youre about to fill out
+		if(operandChecker == '+' || operandChecker == '-' || operandChecker == '/' || operandChecker == '*')
+		{
+			registerArrayTracker++;//Go to spot AFTER operand, since it got moved ahead. Avoids overwriting!
+		}
+
 		strncat(registerArray[registerArrayTracker],&ch,1);
 	//	registerArrayTracker++;
 		lookahead++;
@@ -293,6 +385,12 @@ int recurseThroughSymbol()
 	char ch = (char) fileContents[lookahead];
 	if(isalpha(ch) || isdigit(ch) || ch == '_')
 	{
+		char operandChecker = registerArray[registerArrayTracker][0];
+		//Check place where youre about to fill out
+		if(operandChecker == '+' || operandChecker == '-' || operandChecker == '/' || operandChecker == '*')
+		{
+			registerArrayTracker++;//Go to spot AFTER operand, since it got moved ahead. Avoids overwriting!
+		}
 		//Check if array already has the words
 		strncat(str[arraySpaceTracker],&ch,1);
 			
