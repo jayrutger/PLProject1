@@ -150,7 +150,7 @@ int getTokenType()
 			afterEquals=0;
 			lookahead++;
 			registerArrayTracker = 0;
-			memset(&registerArray[0],0,sizeof(registerArray));
+			//memset(&registerArray[0],0,sizeof(registerArray));
 		
 			printf("\nsemicolon hit ");
 			if(parenthesisCount != 0)

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include "main.h"
 #include "lexer.h"
-
+#include <string.h>
 /*******************************************
  * Class: Programming Languages with Dr. Coffey
 
@@ -88,6 +88,36 @@ int main(int argc, char** argv)
 	       		printf("\n");
 			break;
 		}
+		else if(tokenType == ENDLINE)//FINISHED ONE LINE
+		{
+
+			for(int k=0;k<15;k++)
+			{
+				if(k==0)
+				{
+					printf("*****[");
+				}
+				if(registerArray[k][0] == '\0')
+				{
+					break;
+				}
+				else
+				{
+					printf("%s",registerArray[k]);
+					if(registerArray[k+1][0] == '\0')
+					{
+
+						printf("]*****");
+						break;
+					}
+					else
+					{
+						printf(",");
+					}
+				}	
+			}
+			memset(&registerArray[0],0,sizeof(registerArray));
+		}
 		else if (tokenType == DONE)
 		{
 			checkArrayForDuplicates();
@@ -106,8 +136,17 @@ int main(int argc, char** argv)
 			printf("\n");
 			break;
 		}
+
+		/*for(int k=0;k<15;k++)
+		{
+			printf("%s",registerArray[k]);		
+			printf(", ");
+		}*/
+		//printf(" END ");
+
+	//	printf("%s\n",registerArray);
 		//printf("%c",intStrings[1][0]);//prints ints
-		printf("%s","BE Word:");
+	/*	printf("%s","BE Word:");
 		printf("%s",beforeEqualsWord);
 
 		printf("\n");
@@ -182,6 +221,7 @@ int main(int argc, char** argv)
 		printf("%s",registerArray[13]);
 		
 		printf("\n");
+	*/
 	}
 
 //		printf("%s","BE Word:");
